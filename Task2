@@ -1,0 +1,28 @@
+def numbers_to_letters(input):
+    letter_dict = {
+        "2": ["a", "b", "c"],
+        "3": ["d", "e", "f"],
+        "4": ["g", "h", "i"],
+        "5": ["j", "k", "l"],
+        "6": ["m", "n", "o"],
+        "7": ["p", "q", "r", "s"],
+        "8": ["t", "u", "v"],
+        "9": ["w", "x", "y", "z"],
+    }
+    if '0' in input or '1' in input: raise Exception("Input decimal positive number [2-9]!")
+    input_list = list(map(lambda x: letter_dict[x], list(input)))
+    cartesian = [[]]
+    for pool in input_list: cartesian = [x + [y] for x in cartesian for y in pool]
+    cartesian_str = list(map(lambda x: "".join(x), cartesian))
+    print(f"nw: {cartesian_str}")
+    return cartesian_str
+
+
+def test_numbers_to_letters():
+    assert numbers_to_letters("46") == ["gm", "gn", "go", "hm", "hn", "ho", "im", "in", "io"]
+    assert numbers_to_letters("") == [""]
+    assert numbers_to_letters("2") == ["a", "b", "c"]
+
+
+if __name__ == "__main__":
+    test_numbers_to_letters()
