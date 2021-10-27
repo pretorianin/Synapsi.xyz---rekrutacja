@@ -1,4 +1,6 @@
 # Synapsi.xyz---rekrutacja
 
 ## General info
-This project is simple Lorem ipsum dolor generator.
+This project includes the implementation of 3 recruitment tasks.
+
+# Task 1
