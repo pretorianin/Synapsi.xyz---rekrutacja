@@ -1,0 +1,79 @@
+class Solver:
+
+    def __init__(self, input, max_width) -> None:
+        self.words = input.split(' ')
+        self.max_width = max_width
+        self.checked = 0
+
+    def set_input(self, input) -> None:
+        self.words = input.split(' ')
+
+    def set_max_width(self, max_width) -> None:
+        self.max_width = max_width
+
+    def show_effect(self) -> None:
+        forrmated_list = self.solve()
+        for sentecne in forrmated_list: print(f"{sentecne}|len={len(sentecne)}")
+        print(forrmated_list)
+        return forrmated_list
+
+    def solve(self) -> list:
+        words_amount = len(self.words)
+        forrmated_list = []
+        self.checked = 0
+
+        while self.checked < words_amount:
+            tmp_sentence, tmp_sentence_len = self.parse_one_sentence()
+            tmp_sentence_str = self.padding_one_sentence(tmp_sentence, tmp_sentence_len)
+            forrmated_list.append(tmp_sentence_str)
+
+        return forrmated_list
+
+    def padding_one_sentence(self, tmp_sentence, tmp_sentence_len) -> str:
+        space_index = 1
+        tmp_word_amount = len(tmp_sentence)
+
+        while tmp_sentence_len < self.max_width:
+            tmp_sentence[space_index] = f" {tmp_sentence[space_index]}"
+            space_index = (space_index + 2) % tmp_word_amount
+            tmp_sentence_len += 1
+
+        tmp_sentence_str = "".join(tmp_sentence)
+        return tmp_sentence_str
+
+    def parse_one_sentence(self) -> tuple:
+        tmp_sentence = []
+        tmp_sentence_len = 0
+        loop_tmp_sentence_len = 0
+        words_amount = len(self.words)
+
+        while loop_tmp_sentence_len < self.max_width:
+            if len(self.words[self.checked]) > self.max_width: raise Exception(
+                f"Word to loong! Max len {self.max_width}")
+
+            if len(self.words[self.checked]) == self.max_width:
+                tmp_sentence += self.words[self.checked]
+                tmp_sentence_len = self.max_width
+                break
+
+            tmp_sentence += [self.words[self.checked], ' ']
+            tmp_sentence_len = sum(list(map(len, tmp_sentence)))
+            self.checked += 1
+            loop_tmp_sentence_len = tmp_sentence_len
+            if self.checked != words_amount:
+                loop_tmp_sentence_len += len(self.words[self.checked])
+            else:
+                break
+
+        return tmp_sentence, tmp_sentence_len
+
+
+if __name__ == "__main__":
+    input = "Hey there mate, it's nice to finally meet you!"
+    max_width = 16
+
+    s = Solver(input, max_width)
+    assert s.show_effect() == ['Hey there mate, ', "it's  nice  to  ", 'finally   meet  ', 'you!            ']
+    s.set_max_width(22)
+    assert s.show_effect() == ["Hey  there mate, it's ", 'nice  to finally meet ', 'you!                  ']
+
