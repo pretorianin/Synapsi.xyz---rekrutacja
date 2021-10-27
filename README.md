@@ -1,0 +1,1 @@
+# Synapsi.xyz---rekrutacja
