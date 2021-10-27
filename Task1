@@ -1,0 +1,18 @@
+def reverse_digit(number_str):
+    is_negative = '-' == number_str[0]
+    if is_negative: number_str = number_str[1:]
+    if not number_str.isdecimal(): raise Exception("Input decimal positive/negatvie number!")
+    max_pow, number_val = 2 ** 31, int(number_str)
+    if number_val > max_pow - (0 if is_negative else 1): raise Exception("Decimal number not in int range!")
+    number_str = f"{'-' if is_negative else ''}{number_str[::-1]}"
+    print(f"Reversed number: {number_str}")
+    return number_str
+
+
+def test_reverse_digit():
+    assert reverse_digit("512") == "215"
+    assert reverse_digit("-954") == "-459"
+
+
+if __name__ == "__main__":
+    test_reverse_digit()
